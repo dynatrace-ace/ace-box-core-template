@@ -1,0 +1,14 @@
+# Terraform
+**/.terraform/*
+*.tfvars
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*tfplan*
+*.terraform.lock.hcl
+**/ace-box.conf.yml
+**/.infracost/*

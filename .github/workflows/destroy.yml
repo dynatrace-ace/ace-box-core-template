@@ -1,0 +1,43 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  open_tofu_destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY_JSON }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+      - uses: opentofu/setup-opentofu@v1
+      - name: OpenTofu Init
+        id: init
+        run: tofu init -backend-config="bucket=${{ github.event.repository.name }}"
+        working-directory: ./terraform/gcloud
+      - name: OpenTofu Destroy
+        id: apply
+        run: tofu destroy -auto-approve
+        env:
+          TF_VAR_gcloud_project: "${{ secrets.GCP_PROJECT }}"
+          TF_VAR_gcloud_zone: "${{ secrets.GCP_ZONE }}"
+          TF_VAR_dt_tenant: "${{ secrets.DT_TENANT }}"
+          TF_VAR_dt_api_token: "${{ secrets.DT_API_TOKEN }}"
+          TF_VAR_ace_box_version: "${{ secrets.ACE_BOX_VERSION }}"
+        working-directory: ./terraform/gcloud
+  delete_tf_state:
+    runs-on: ubuntu-latest
+    needs: open_tofu_destroy
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY_JSON }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+      - name: "Empty and delete CloudStorage Bucket"
+        run: "gcloud storage rm -r gs://${{ github.event.repository.name }}"
