@@ -14,7 +14,7 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
       - name: "Create CloudStorage Bucket"
-        run: 'gcloud storage buckets create gs://${{ github.event.repository.name }} || echo "TBD: Catch error"'
+        run: "gcloud storage buckets describe gs://${{ github.event.repository.name }} || gcloud storage buckets create gs://${{ github.event.repository.name }}"
   open_tofu_deploy:
     runs-on: ubuntu-latest
     needs: create_tf_state
