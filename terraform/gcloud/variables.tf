@@ -66,8 +66,8 @@ variable "use_case" {
 }
 
 variable "extra_vars" {
-  type    = map(string)
-  default = {}
+  type    = string
+  default = "{}"
 }
 
 variable "dashboard_user" {

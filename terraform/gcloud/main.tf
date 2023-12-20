@@ -98,7 +98,7 @@ module "provisioner" {
   dt_tenant          = var.dt_tenant
   dt_api_token       = var.dt_api_token
   use_case           = var.use_case
-  extra_vars         = var.extra_vars
+  extra_vars         = jsondecode(var.extra_vars)
   dashboard_user     = var.dashboard_user
   dashboard_password = local.dashboard_password
   ace_box_version    = var.ace_box_version
