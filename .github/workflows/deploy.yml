@@ -31,15 +31,15 @@ jobs:
         id: init
         run: tofu init -backend-config="bucket=${{ github.event.repository.name }}"
         working-directory: ./terraform/gcloud
-      - name: OpenTofu Apply
-        id: apply
-        run: tofu apply -auto-approve
-        env:
-          TF_VAR_gcloud_project: "${{ secrets.GCP_PROJECT }}"
-          TF_VAR_gcloud_zone: "${{ secrets.GCP_ZONE }}"
-          TF_VAR_dt_tenant: "${{ secrets.DT_TENANT }}"
-          TF_VAR_dt_api_token: "${{ secrets.DT_API_TOKEN }}"
-          TF_VAR_ace_box_version: "${{ secrets.ACE_BOX_VERSION }}"
-          TF_VAR_extra_vars: "${{ secrets.EXTRA_VARS_JSON }}"
-          TF_VAR_use_case: "${{ secrets.USE_CASE_GIT_LINK }}"
-        working-directory: ./terraform/gcloud
+      # - name: OpenTofu Apply
+      #   id: apply
+      #   run: tofu apply -auto-approve
+      #   env:
+      #     TF_VAR_gcloud_project: "${{ secrets.GCP_PROJECT }}"
+      #     TF_VAR_gcloud_zone: "${{ secrets.GCP_ZONE }}"
+      #     TF_VAR_dt_tenant: "${{ secrets.DT_TENANT }}"
+      #     TF_VAR_dt_api_token: "${{ secrets.DT_API_TOKEN }}"
+      #     TF_VAR_ace_box_version: "${{ secrets.ACE_BOX_VERSION }}"
+      #     TF_VAR_extra_vars: "${{ secrets.EXTRA_VARS_JSON }}"
+      #     TF_VAR_use_case: "${{ secrets.USE_CASE_GIT_LINK }}"
+      #   working-directory: ./terraform/gcloud
